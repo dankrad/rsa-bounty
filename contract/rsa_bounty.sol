@@ -8,9 +8,7 @@ contract RsaBounty {
         uint bounty;
     }
 
-    uint constant HOUR = 3600;
-    uint constant DAY = 24 * HOUR;
-    uint constant CLAIM_DELAY = 1 * DAY;
+    uint constant CLAIM_DELAY = 1 days;
 
     address owner;
 
@@ -25,25 +23,25 @@ contract RsaBounty {
         challenges[0] = Challenge({
         modulus: hex"51e6945d1fe1c38b36664d4d8f9f105ea80af18a0eb2d830e69a32e8317f8f4c4e576c019e93232e95afba87ae3096492e459dbc5da3c52af371375b8929a4c65021db9ddb5099ccdcae5398b41b19c5ff6abd9d02c0c7281df453cb571e77ad",
         redeemed: false,
-        bounty: 2000000000000000000
+        bounty: 2 ether
         });
 
         challenges[1] = Challenge({
         modulus: hex"9de4c3579957110a3bfcbcde06caebac656da2a78cb3a0ad63470a143d617a847a004ec6bf69bfb3621d1eef5b6ac3c248f4623ac8f67db08dec222e72145f75122a0724daebd9eda4f714e95492e7033d086c443f105f545179dc976ea5afffdf37d67eb3c77601e1111a46d65974980cdaa7e51d082a9d127c3205d4dab057",
         redeemed: false,
-        bounty: 4000000000000000000
+        bounty: 4 ether
         });
 
         challenges[2] = Challenge({
         modulus: hex"66e9677ca625ef573e8caf740a8bf3ae7bcdf6207788152b0c0906c4538fd64a15ac10b54a3c82bdbfdaf1892adc79d205b9a95e9bd64fe453287db04fbda82327388154e5be7ae5126fad16fd467ba1d6dd1e00d6a8291e962ce5604b02485e7124b80c6a899871a627a0b32e0fb2f22e333380cd8219b82bbcd5790a53498b7150e9261774032ade4b016f00a62cfd262ad3268bb8e2755fbd6d8184157faedbcfe0c0e3a820fbcdd5c6e3a363e83cf1eb5ecacb5698668b9ee1acfadd0997",
         redeemed: false,
-        bounty: 8000000000000000000
+        bounty: 8 ether
         });
 
         challenges[3] = Challenge({
         modulus: hex"ab14a3e094faacbac8d8c03fb35a0ee1f11426ee2fa578c7f6c9649aad8a83e1859c9f3a369dbdea76574fd527aeb68a32364645a239cff4ecd2e8406e7f4b8f6f00baafd6d57da3e7ac5c87c26c738471d30a81097be0bae18f040ed2e8c27dd245b8a93cb05d10aa5cdcda3727c56a3d9bff776ff7dbf3a50385190957e637ded8ed48552cf2080983045e2aad681fe4bfcef58478bf37de5706f35079ebac88cad68a3a967f2e529cae849734279e4e537c84b9c93ef25f80b493990cea4d07bb035c6b7598b9e1aeb4829008e5a7d58597c7f693854b09dd8a622e8d8eb4bb39f1c83bdff133ae1d0f5579a99fc971d817222e3b9b2d482d4cc17a5bd57d",
         redeemed: false,
-        bounty: 16000000000000000000
+        bounty: 16 ether
         });
 
         challenges_length = 4;
