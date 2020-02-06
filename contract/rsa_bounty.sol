@@ -51,13 +51,17 @@ contract RsaBounty {
     // Expmod for small operands
     function expmod(uint base, uint e, uint m) public view returns (uint o) {
         assembly {
+            // Get free memory pointer
             let p := mload(0x40)
-            mstore(p, 0x20)
-            mstore(add(p, 0x20), 0x20)
-            mstore(add(p, 0x40), 0x20)
-            mstore(add(p, 0x60), base)
-            mstore(add(p, 0x80), e)
-            mstore(add(p, 0xa0), m)
+            // Store parameters for the Expmod (0x05) precompile
+            mstore(p, 0x20)             // Length of Base
+            mstore(add(p, 0x20), 0x20)  // Length of Exponent
+            mstore(add(p, 0x40), 0x20)  // Length of Modulus
+            mstore(add(p, 0x60), base)  // Base
+            mstore(add(p, 0x80), e)     // Exponent
+            mstore(add(p, 0xa0), m)     // Modulus
+
+            // Call 0x05 (EXPMOD) precompile
             if iszero(staticcall(sub(gas, 2000), 0x05, p, 0xc0, p, 0x20)) {
                 revert(0, 0)
             }
@@ -68,24 +72,42 @@ contract RsaBounty {
     // Expmod for bignum operands (encoded as bytes, only base and modulus)
     function bignum_expmod(bytes memory base, uint e, bytes memory m) public view returns (bytes memory o) {
         assembly {
-            let bl := mload(base)
-            let ml := mload(m)
+            // Get free memory pointer
             let p := mload(0x40)
-            mstore(p, bl)
-            mstore(add(p, 0x20), 0x20)
-            mstore(add(p, 0x40), ml)
+
+            // Get base length in bytes
+            let bl := mload(base)
+            // Get modulus length in bytes
+            let ml := mload(m)
+
+            // Store parameters for the Expmod (0x05) precompile
+            mstore(p, bl)               // Length of Base
+            mstore(add(p, 0x20), 0x20)  // Length of Exponent
+            mstore(add(p, 0x40), ml)    // Length of Modulus
+            // Use Identity (0x04) precompile to memcpy the base
             if iszero(staticcall(10000, 0x04, add(base, 0x20), bl, add(p, 0x60), bl)) {
                 revert(0, 0)
             }
-            mstore(add(p, add(0x60, bl)), e)
+            mstore(add(p, add(0x60, bl)), e) // Exponent
+            // Use Identity (0x04) precompile to memcpy the modulus
             if iszero(staticcall(10000, 0x04, add(m, 0x20), ml, add(add(p, 0x80), bl), ml)) {
                 revert(0, 0)
             }
+            
+            // Call 0x05 (EXPMOD) precompile
             if iszero(staticcall(sub(gas, 2000), 0x05, p, add(add(0x80, bl), ml), add(p, 0x20), ml)) {
                 revert(0, 0)
             }
+
+            // Update free memory pointer
             mstore(0x40, add(add(p, ml), 0x20))
+
+            // Store correct bytelength at p. This means that with the output
+            // of the Expmod precompile (which is stored as p + 0x20)
+            // there is now a bytes array at location p
             mstore(p, ml)
+
+            // Return p
             o := p
         }
     }
