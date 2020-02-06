@@ -2,9 +2,13 @@
 
 Smart contract for on-chain bounties for the RSA adaptive root problem.
 
-The contract provides an interface to redeem a bounty that was set for RSA adaptive root problem (redeem_bounty method, for details on the bounties see [here](https://rsa.cash/bounties)). It is based on the Pocklington prime certificate hash-to-prime method 
+The contract provides an interface to redeem a bounty that was set for RSA adaptive root problem (redeem_bounty method, for details on the bounties see [here](https://rsa.cash/bounties)).
 
- In order to redeem a bounty, it first has to be locked by providing a sha256 hash of the key (this is to prevent front running once someone has found a valid solution).
+In order to redeem a bounty, it first has to be locked by providing a sha256 hash of the solution (this is to prevent front running once someone has found a valid solution).
+
+# Redeeming a bounty
+
+TODO
 
 # Requirements
 
@@ -12,9 +16,10 @@ This project uses `pipenv`, https://docs.pipenv.org/en/latest/.
 
 ## Install
 
+A working solidity compiler (solc version 0.5.11) is required.
+
 ```bash
-pipenv shell
-pipenv install
+make test_install
 ```
 
 ## Compile
