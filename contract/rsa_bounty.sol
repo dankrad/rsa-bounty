@@ -125,13 +125,14 @@ contract RsaBounty {
             r += 1;
         }
         for(uint i = 0; i < miller_rabin_checks; i++) {
-            uint a = (uint256(sha256(abi.encodePacked(n, i))) % (n - 2)) + 2;
+            // pick a random integer a in the range [2, n − 2]
+            uint a = (uint256(sha256(abi.encodePacked(n, i))) % (n - 3)) + 2;
             uint x = expmod(a, d, n);
             if(x == 1 || x == n - 1) {
                 continue;
             }
             bool check_passed = false;
-            for(uint j = 0; j < r; j++) {
+            for(uint j = 1; j < r; j++) {
                 x = mulmod(x, x, n);
                 if(x == n - 1) {
                     check_passed = true;
@@ -182,7 +183,7 @@ contract RsaBounty {
 
     // Compares two bignums encoded as bytes (very inefficient byte by byte method)
     function bignum_cmp(bytes memory x, bytes memory y) public pure returns (int) {
-        int maxdigit = int(max(x.length, y.length) - 1);
+        int maxdigit = int(max(x.length, y.length)) - 1;
         for(int i = maxdigit; i >= 0; i--) {
             uint8 a = bignum_getdigit(x, uint(i));
             uint8 b = bignum_getdigit(y, uint(i));
