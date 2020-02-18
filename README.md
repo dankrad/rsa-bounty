@@ -27,8 +27,10 @@ If you have found such a solution, you must first submit a "claim" to it. This i
 
 You submit a claim by calling the function
  * claim_bounty(bytes32 claim_hash)
+
 Then after 24 hours, you call
  * redeem_bounty(uint challenge_no, bytes memory x, bytes memory y, uint p)
+
 to redeem
 
 For more concrete examples, you should check tests/test_redeem.py for a concrete implementation of redeeming a bounty.
