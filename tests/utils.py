@@ -38,8 +38,8 @@ def solve_bounty(x, challenge_no, challenge, a0, incorrect_root = False, incorre
     else:
         assert powmod(y, p, challenge["modulus"]) == x
 
-    xbytes = x.to_bytes(((x.bit_length() + 7) // 8) * 1, "big")
-    ybytes = y.to_bytes(((y.bit_length() + 7) // 8) * 1, "big")
+    xbytes = x.to_bytes(((challenge["modulus"].bit_length() + 7) // 8) * 1, "big")
+    ybytes = y.to_bytes(((challenge["modulus"].bit_length() + 7) // 8) * 1, "big")
 
     bytes_to_hash = challenge_no.to_bytes(32, "big") + xbytes + \
                     ybytes + \
